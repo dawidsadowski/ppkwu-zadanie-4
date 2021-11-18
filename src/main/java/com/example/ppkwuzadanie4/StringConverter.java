@@ -16,17 +16,30 @@ public class StringConverter {
 
         switch (to) {
             case "txt": {
-                text = "txt";
+                JSONObject json = new JSONObject(text);
+                Object _text = json.get("text");
+                Object _digits = json.get("digits");
+                Object _upperCase = json.get("upperCase");
+                Object _lowerCase = json.get("lowerCase");
+                Object _whitespace = json.get("whitespace");
+                Object _specialCharacters = json.get("specialCharacters");
+
+                text = String.format("Text: %s\nDigits: %s\nUpper case: %s\nLower case: %s\nWhitespace: %s\nSpecial characters: %s",
+                        _text, _digits, _upperCase, _lowerCase, _whitespace, _specialCharacters);
                 break;
             }
 
             case "xml": {
-                text = "xml";
+                JSONObject json = new JSONObject(text);
+                text = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><stringData>";
+                text = text + XML.toString(json) + "</stringData>";
                 break;
             }
-
             case "csv": {
-                text = "csv";
+                text = "{\"stringData\":[" + text + "]}";
+                JSONObject json = new JSONObject(text);
+                JSONArray jsonArray = json.getJSONArray("stringData");
+                text = CDL.toString(jsonArray);
                 break;
             }
         }
