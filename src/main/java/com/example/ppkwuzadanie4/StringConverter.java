@@ -1,14 +1,17 @@
 package com.example.ppkwuzadanie4;
 
 import org.apache.commons.text.CaseUtils;
-import org.json.*;
+import org.json.CDL;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.XML;
 
 import java.util.Locale;
 
 public class StringConverter {
 
     public static String convert(String from, String to, String text) {
-        if(from.toLowerCase(Locale.ROOT).equals(to.toLowerCase(Locale.ROOT))) {
+        if (from.toLowerCase(Locale.ROOT).equals(to.toLowerCase(Locale.ROOT))) {
             return text;
         }
 
@@ -35,6 +38,7 @@ public class StringConverter {
                 text = text + XML.toString(json) + "</stringData>";
                 break;
             }
+
             case "csv": {
                 text = "{\"stringData\":[" + text + "]}";
                 JSONObject json = new JSONObject(text);
@@ -55,13 +59,13 @@ public class StringConverter {
                 String[] lines = text.split("\n");
                 JSONObject jsonObject = new JSONObject();
 
-                for(String line : lines) {
+                for (String line : lines) {
                     String[] lineParts = line.split(":", 2);
 
                     String key = CaseUtils.toCamelCase(lineParts[0].toLowerCase(Locale.ROOT), false, ' ');
                     String value = lineParts[1].strip();
 
-                    if(key.equals("text")) {
+                    if (key.equals("text")) {
                         jsonObject.put(key, value);
                     } else {
                         jsonObject.put(key, Integer.parseInt(value));
